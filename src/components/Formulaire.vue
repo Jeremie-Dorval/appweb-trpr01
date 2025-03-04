@@ -2,6 +2,7 @@
     import { ref, watch } from "vue"
     import type { Produit } from "../scripts/produit.ts"
     import ProduitItem from "./ProduitItem.vue"
+    import Recherche from "./Recherche.vue"
 
     const produits = ref<Produit[]>([
         {
@@ -33,7 +34,7 @@
     const newDescription = ref<string>('')
 
     const isValidated = ref(false)
-    const recherche = ref<string>('')
+    //const recherche = ref<string>('')
     const resultat = ref<Produit[]>([])
 
     const addProduit = () => {
@@ -103,13 +104,9 @@
         }
     }
 
-    const rechercheNom = () => {
-        resultat.value = produits.value.filter(produit => produit.name.includes(recherche.value))
-    }
-
     watch(produits, (nouveauProduit) => {
         nouveauProduit.forEach(produit => {
-            if(produit.quantiter == 0) {
+            if(produit.quantiter === 0) {
                 alert("Le produit" + produit.name + "est en ruptire de stock!")
             }
         })
@@ -142,12 +139,7 @@
 <template>
     <div class="container mt-4">
         <div class="row">
-            <div class="input-group">
-        <input v-model="recherche" type="text" id="recherche" class="form-control" placeholder="Rechercher un produit par son nom">
-        <button class="btn btn-primary" @click="rechercheNom">
-            <i class="bi bi-search"></i>
-        </button>
-    </div>
+            <Recherche :produits="produits" @recherche="resultat = $event"/>
             <div class="col">
                 <h3 class="mb-4 text-center">Ajouter une nouvelle carte</h3>
                 <form class="row g-3 needs-validation" :class="{'was-validated': isValidated}" novalidate>
@@ -213,7 +205,7 @@
                 </form>
             </div>
         </div>
-        <div v-if="resultat.length == 0 || recherche.length == 0" class="mt-4">
+        <div v-if="resultat.length === 0" class="mt-4">
             <h3>Liste des produits :</h3>
             <ProduitItem v-for="produit in produits" :key="produit.id" :produit="produit" @delete="deleteProduit" @modifier="startEditProduit" @dupliquer="dupliquer"/>
         </div>
