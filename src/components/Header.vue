@@ -4,7 +4,7 @@
 
 <template>
     <header class="py-4">
-        <img src="../image/liliana.png" alt="Bannière Magic" class="img-fluid shadow-lg rounded">
+        <img src="../assets/images/liliana.png" alt="Bannière Magic" class="img-fluid shadow-lg rounded">
     </header>
 </template>
 
