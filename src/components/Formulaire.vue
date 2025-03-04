@@ -34,7 +34,6 @@
     const newDescription = ref<string>('')
 
     const isValidated = ref(false)
-    //const recherche = ref<string>('')
     const resultat = ref<Produit[]>([])
 
     const addProduit = () => {
@@ -207,11 +206,19 @@
         </div>
         <div v-if="resultat.length === 0" class="mt-4">
             <h3>Liste des produits :</h3>
-            <ProduitItem v-for="produit in produits" :key="produit.id" :produit="produit" @delete="deleteProduit" @modifier="startEditProduit" @dupliquer="dupliquer"/>
+            <div class="row mb-3">
+                <div v-for="produit in produits" class="col-md-4">
+                    <ProduitItem :key="produit.id" :produit="produit" @delete="deleteProduit" @modifier="startEditProduit" @dupliquer="dupliquer"/>
+                </div>
+            </div>
         </div>
         <div v-else class="mt-4">
             <h3>Liste des produits :</h3>
-            <ProduitItem v-for="produit in resultat" :key="produit.id" :produit="produit" @delete="deleteProduit" @modifier="startEditProduit" @dupliquer="dupliquer"/>
+            <div class="row mb-3">
+                <div v-for="produit in produits" class="col-md-4">
+                    <ProduitItem :key="produit.id" :produit="produit" @delete="deleteProduit" @modifier="startEditProduit" @dupliquer="dupliquer"/>
+                </div>
+            </div>
         </div>
 
         <button @click="exporterCSV" class="btn btn-primary">
