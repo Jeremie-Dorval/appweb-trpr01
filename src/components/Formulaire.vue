@@ -37,7 +37,6 @@
     const resultat = ref<Produit[]>([])
 
     const addProduit = () => {
-        //Validation fait avec ChatGPT
         isValidated.value = true
 
         if (!newName.value || newPrix.value < 1 || newQuantiter.value < 1 || !newDescription.value) {
@@ -116,7 +115,6 @@
         })
     }, {deep: true})
 
-    //exportation en csv fait avec chatgpt
     const exporterCSV = () => {
         if (produits.value.length === 0) {
             alert("Aucun produit à exporter !")
