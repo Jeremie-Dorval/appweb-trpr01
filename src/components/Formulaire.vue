@@ -18,6 +18,13 @@
             prix: 0.49,
             quantiter: 15,
             description: "Carte qui ne coute rien a jouer, type land et si cette carte est engager ajouter un mana de n'importe qu'elle couleur de votre commander."
+        },
+        {
+            id: 3,
+            name: 'Altaïr, Brotherhood Mentor-Kelsien, the Plague',
+            prix: 17.99,
+            quantiter: 1,
+            description: "Carte de type creature lengendaire, humain assassin. Elle a la vigilance et hâte, elle gagne +1 / +1 pour chaque point d'experience que vous avez. Quand la carte est engager elle inflige 1 point de dega a une creature que vous ne controller pas et quand cette creature meurt voud gagner un point d'experience."
         }
     ])
 
@@ -27,7 +34,7 @@
     const editQuantiter = ref<number>(0)
     const editDescription = ref<string>('')
 
-    let nextId = 3
+    let nextId = 4
     const newName = ref<string>('')
     const newPrix = ref<number>(0)
     const newQuantiter = ref<number>(0)
@@ -39,7 +46,7 @@
     const addProduit = () => {
         isValidated.value = true
 
-        if (!newName.value || newPrix.value < 1 || newQuantiter.value < 1 || !newDescription.value) {
+        if (!newName.value || newPrix.value < 0 || newQuantiter.value < 1 || !newDescription.value) {
             return
         }
 
@@ -133,6 +140,15 @@
         link.click()
         document.body.removeChild(link)
     }
+
+    const groupProduit = (resultat: Produit[], size: number) => {
+        const result = []
+        for(let i = 0; i < resultat.length; i += size) {
+            result.push(resultat.slice(i, i + size))
+        }
+
+        return result
+    }
 </script>
 
 <template>
@@ -150,7 +166,7 @@
 
                     <div class="col-md-6">
                         <label for="prix" class="form-label">Prix du produit :</label>
-                        <input v-model="newPrix" type="text" id="prix" class="form-control" required :class="{'is-invalid': isValidated && !newPrix}">
+                        <input v-model="newPrix" type="number" min="0.01" step="0.01" id="prix" class="form-control" required :class="{'is-invalid': isValidated && !newPrix}">
                         <div class="invalid-feedback">Veuillez entrer un prix valide.</div>
                     </div>
 
@@ -206,17 +222,17 @@
         </div>
         <div v-if="resultat.length === 0" class="mt-4">
             <h3>Liste des produits :</h3>
-            <div class="row mb-3">
-                <div v-for="produit in produits" class="col-md-4">
-                    <ProduitItem :key="produit.id" :produit="produit" @delete="deleteProduit" @modifier="startEditProduit" @dupliquer="dupliquer"/>
+            <div v-for="(group, index) in groupProduit(produits, 2)" :key="'row-' + index" class="row mb-3">
+                <div v-for="produit in group" :key="produit.id" class="col-md-6">
+                    <ProduitItem :produit="produit" @delete="deleteProduit" @modifier="startEditProduit" @dupliquer="dupliquer"/>
                 </div>
             </div>
         </div>
         <div v-else class="mt-4">
-            <h3>Liste des produits :</h3>
-            <div class="row mb-3">
-                <div v-for="produit in produits" class="col-md-4">
-                    <ProduitItem :key="produit.id" :produit="produit" @delete="deleteProduit" @modifier="startEditProduit" @dupliquer="dupliquer"/>
+            <h3>Résultats de la recherche :</h3>
+            <div v-for="(group, index) in groupProduit(resultat, 2)" :key="'search-row-' + index" class="row mb-3">
+                <div v-for="produit in group" :key="produit.id" class="col-md-6">
+                    <ProduitItem :produit="produit" @delete="deleteProduit" @modifier="startEditProduit" @dupliquer="dupliquer"/>
                 </div>
             </div>
         </div>
