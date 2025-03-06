@@ -11,6 +11,7 @@ Utilisation de chatGPT:
 Utilisation de chatGPT pour tout le bootstrap
 Utilisation de chatGPT pour la validation bootstrap du formulaire
 Exportation en csv fait a l'aide de chatGPT
+Le message de confirmation de la suppression d'un produit a été fait avec chatGPT
 
 URL du repository de GitHub:
 https://github.com/Jeremie-Dorval/appweb-trpr01
